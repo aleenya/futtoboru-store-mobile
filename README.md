@@ -9,37 +9,37 @@ Widget tree bisa digambarkan seperti data type Tree, di mana setiap node adalah 
 
 ## Sebutkan semua widget yang kamu gunakan dalam proyek ini dan jelaskan fungsinya.
 
-- MaterialApp
+- **MaterialApp:**
 Sebagai root aplikasi Flutter. Mengatur tema, judul aplikasi, dan menentukan halaman awal (MyHomePage).
 
-- Scaffold
+- **Scaffold:**
 Menyediakan struktur dasar halaman seperti AppBar di atas dan body di bawahnya.
 
-- AppBar
+- **AppBar:**
 Menampilkan judul “Futtoboru Shop” di bagian atas layar.
 
-- Center
+- **Center:**
 Meletakkan konten utama (Column) di tengah layar secara vertikal dan horizontal.
 
-- Column
+- **Column:**
 Menyusun elemen-elemen (seperti teks identitas dan grid menu) secara vertikal.
 
-- Text
+- **Text:**
 Menampilkan tulisan, seperti nama, NPM, dan kelas mahasiswa di bagian atas halaman.
 
-- GridView.count
+- **GridView.count:**
 Menampilkan daftar menu dalam bentuk grid (kotak-kotak) dua kolom.
 
-- Material
+- **Material:**
 Memberi tampilan dan efek Material Design pada setiap kotak menu (termasuk warna latar belakang sesuai item).
 
-- InkWell
+- **InkWell:**
 Menjadikan kotak menu bisa ditekan dan menampilkan efek ripple saat diklik.
 
-- Icon
+- **Icon:**
 Menampilkan ikon pada setiap menu (seperti store, article, add_circle) sesuai fungsi tombolnya.
 
-- ItemHomepage (custom widget/model)
+- **ItemHomepage (custom widget/model):**
 Kelas buatan sendiri untuk menyimpan data tiap menu, yaitu nama, ikon, dan warna masing-masing tombol.
 
 
