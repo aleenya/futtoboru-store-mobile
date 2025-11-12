@@ -1,83 +1,44 @@
-# Tugas 7
+# Tugas 8
 
 
-## Jelaskan apa itu widget tree pada Flutter dan bagaimana hubungan parent-child (induk-anak) bekerja antar widget.
+## Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement() pada Flutter. Dalam kasus apa sebaiknya masing-masing digunakan pada aplikasi Football Shop kamu?
 
-Widget tree bisa digambarkan seperti data type Tree, di mana setiap node adalah widget. Artinya, akan ada suatu widget parent yang memiliki satu atau lebih widget child-nya dan widget child tersebut juga bisa mempunyai child sendiri. Hubungan parent-child pada widget bekerja mirip konsep OOP, apa yang ada di parent akan dimiliki child. Misal, parent widget memiliki alignment center, maka semua child widget nya juga akan memiliki alignment center.
+**Navigator.push()**
+
+- Menambah halaman baru di atas stack
+- Halaman lama tidak dihapus
+- User bisa balik ke halaman sebelumnya dengan Navigator.pop()
+- Contoh penggunaannya saat dari Home -> All Products, setelah user melihat All Products bisa langsung back ke Home
 
 
+**Navigator.pushReplacement()**
 
-## Sebutkan semua widget yang kamu gunakan dalam proyek ini dan jelaskan fungsinya.
-
-- **MaterialApp:**
-Sebagai root aplikasi Flutter. Mengatur tema, judul aplikasi, dan menentukan halaman awal (MyHomePage).
-
-- **Scaffold:**
-Menyediakan struktur dasar halaman seperti AppBar di atas dan body di bawahnya.
-
-- **AppBar:**
-Menampilkan judul “Futtoboru Shop” di bagian atas layar.
-
-- **Center:**
-Meletakkan konten utama (Column) di tengah layar secara vertikal dan horizontal.
-
-- **Column:**
-Menyusun elemen-elemen (seperti teks identitas dan grid menu) secara vertikal.
-
-- **Text:**
-Menampilkan tulisan, seperti nama, NPM, dan kelas mahasiswa di bagian atas halaman.
-
-- **GridView.count:**
-Menampilkan daftar menu dalam bentuk grid (kotak-kotak) dua kolom.
-
-- **Material:**
-Memberi tampilan dan efek Material Design pada setiap kotak menu (termasuk warna latar belakang sesuai item).
-
-- **InkWell:**
-Menjadikan kotak menu bisa ditekan dan menampilkan efek ripple saat diklik.
-
-- **Icon:**
-Menampilkan ikon pada setiap menu (seperti store, article, add_circle) sesuai fungsi tombolnya.
-
-- **ItemHomepage (custom widget/model):**
-Kelas buatan sendiri untuk menyimpan data tiap menu, yaitu nama, ikon, dan warna masing-masing tombol.
+- Mengganti halaman lama dengan halaman baru
+- Halaman lama dihapus dari stack
+- User tidak bisa balik ke halaman sebelumnya 
+- Contoh penggunaannya saat Submit Form, setelah itu tidak bisa kembali ke bagian pengisian Form dengan tombol back
 
 
 
-## Apa fungsi dari widget MaterialApp? Jelaskan mengapa widget ini sering digunakan sebagai widget root.
- 
-MaterialApp adalah widget yang mengaktifkan Material Design di aplikasi. Widget ini menyediakan title, theme, home, routes, initialRoute, pengaturan navigator, dll. Sering digunakan sebagai widget root karena banyak widget lain (seperti Scaffold, AppBar, dll) membutuhkan hal-hal yang disediakan MaterialApp.
- 
- 
+## Bagaimana kamu memanfaatkan hierarchy widget seperti Scaffold, AppBar, dan Drawer untuk membangun struktur halaman yang konsisten di seluruh aplikasi?
 
-## Jelaskan perbedaan antara StatelessWidget dan StatefulWidget. Kapan kamu memilih salah satunya?
- 
-**Stateless Widget**
+- **Scaffold**: Digunakan sebagai kerangka dasar halaman, menyediakan struktur umum seperti AppBar, Drawer, dan body. Ini memastikan konsistensi tata letak di seluruh aplikasi.
 
-Tidak punya state yang berubah dalam widget tersebut. UI hanya bergantung pada data dari parameter yang tidak akan berubah setelah di-build kecuali parent rebuild dengan data baru. 
- 
-Contoh: Text statis, icon, tombol yang fungsinya di-handle parent.
+- **AppBar**: Ditempatkan di bagian atas Scaffold, memberikan judul halaman dan navigasi utama. Ini membantu pengguna mengenali halaman yang sedang mereka akses.
 
- 
-**Stateful Widget**
-
-Punya state internal yang bisa berubah seperti toggle, counter, input user. Saat state berubah, akan dipanggil setState() yang mana Flutter akan rebuild bagian tersebut.
-
-Contoh: checkbox, textfield.
-
- 
-
-## Apa itu BuildContext dan mengapa penting di Flutter? Bagaimana penggunaannya di metode build?
-BuildContext adalah objek yang merepresentasikan posisi suatu widget di dalam widget tree. Digunakan   untuk mengambil data/layanan dari widget di atasnya.
-
-Contoh:
-Theme.of(context) → ambil tema.
-Navigator.of(context) → navigasi antar halaman.
-MediaQuery.of(context) → info ukuran layar, orientasi, dsb.
+- **Drawer**: Disediakan di Scaffold untuk navigasi samping, memungkinkan pengguna mengakses berbagai bagian aplikasi dengan mudah. Ini menjaga konsistensi navigasi di seluruh aplikasi. Contoh: Setiap halaman di aplikasi Football Shop memiliki AppBar dengan judul yang sesuai dan Drawer yang sama untuk navigasi ke halaman lain seperti Home, All Products, dan Cart.   
 
 
- 
-## Jelaskan konsep "hot reload" di Flutter dan bagaimana bedanya dengan "hot restart".
-Hot reload adalah update kode yang berubah dan rebuild widget tree tanpa menghapus state yang sedang jalan.
 
-Contoh: ada counter yang sudah bernilai 10, lalu saat diubah warna tombol, counter tetap 10.
+## Dalam konteks desain antarmuka, apa kelebihan menggunakan layout widget seperti Padding, SingleChildScrollView, dan ListView saat menampilkan elemen-elemen form? Berikan contoh penggunaannya dari aplikasi kamu.
+
+- **Padding**: Memberikan ruang di sekitar elemen form, membuat UI lebih rapi dan mudah dibaca. Contoh: Menambahkan Padding di sekitar TextField untuk menghindari elemen yang terlalu rapat.
+
+- **SingleChildScrollView**: Memungkinkan konten form yang panjang untuk di-scroll, sehingga user dapat mengakses semua elemen tanpa terpotong. Contoh: Menggunakan SingleChildScrollView untuk seluruh form pendaftaran agar pengguna dapat menggulir ke bawah jika form terlalu panjang.
+
+- **ListView**: Menyediakan cara yang efisien untuk menampilkan daftar elemen form yang dinamis, seperti daftar produk atau opsi pilihan. Contoh: Menggunakan ListView untuk menampilkan daftar produk di halaman All Products, sehingga pengguna dapat melihat semua produk dengan mudah.
+
+
+
+## Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
+Saya menyesuaikan warna tema agar tampilannya konsisten di seluruh halaman aplikasi (pink). Setiap elemen seperti AppBar, tombol, dan ikon menggunakan warna yang senada supaya aplikasi terlihat rapi dan punya gaya visual yang sama.
