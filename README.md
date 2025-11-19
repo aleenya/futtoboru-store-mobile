@@ -1,44 +1,106 @@
-# Tugas 8
+# Tugas 9
 
 
-## Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement() pada Flutter. Dalam kasus apa sebaiknya masing-masing digunakan pada aplikasi Football Shop kamu?
-
-**Navigator.push()**
-
-- Menambah halaman baru di atas stack
-- Halaman lama tidak dihapus
-- User bisa balik ke halaman sebelumnya dengan Navigator.pop()
-- Contoh penggunaannya saat dari Home -> All Products, setelah user melihat All Products bisa langsung back ke Home
-
-
-**Navigator.pushReplacement()**
-
-- Mengganti halaman lama dengan halaman baru
-- Halaman lama dihapus dari stack
-- User tidak bisa balik ke halaman sebelumnya 
-- Contoh penggunaannya saat Submit Form, setelah itu tidak bisa kembali ke bagian pengisian Form dengan tombol back
+##  Jelaskan mengapa kita perlu membuat model Dart saat mengambil/mengirim data JSON? Apa konsekuensinya jika langsung memetakan Map<String, dynamic> tanpa model (terkait validasi tipe, null-safety, maintainability)?
+- Model Dart memberikan type safety sehingga data yang diterima/dikirim mengikuti tipe yang benar.
+- Menghindari error runtime akibat salah key atau tipe data ketika memakai Map<String, dynamic>.
+- Memaksimalkan null-safety, karena setiap field dapat diatur apakah wajib (required) atau boleh null.
+- Model memudahkan maintainability, karena perubahan struktur JSON cukup diperbarui di satu tempat (fromJson, toJson).
+- Kode lebih bersih, terstruktur, mudah dibaca, dan lebih aman untuk proyek skala menengah/besar.
 
 
 
-## Bagaimana kamu memanfaatkan hierarchy widget seperti Scaffold, AppBar, dan Drawer untuk membangun struktur halaman yang konsisten di seluruh aplikasi?
-
-- **Scaffold**: Digunakan sebagai kerangka dasar halaman, menyediakan struktur umum seperti AppBar, Drawer, dan body. Ini memastikan konsistensi tata letak di seluruh aplikasi.
-
-- **AppBar**: Ditempatkan di bagian atas Scaffold, memberikan judul halaman dan navigasi utama. Ini membantu pengguna mengenali halaman yang sedang mereka akses.
-
-- **Drawer**: Disediakan di Scaffold untuk navigasi samping, memungkinkan pengguna mengakses berbagai bagian aplikasi dengan mudah. Ini menjaga konsistensi navigasi di seluruh aplikasi. Contoh: Setiap halaman di aplikasi Football Shop memiliki AppBar dengan judul yang sesuai dan Drawer yang sama untuk navigasi ke halaman lain seperti Home, All Products, dan Cart.   
+## Apa fungsi package http dan CookieRequest dalam tugas ini? Jelaskan perbedaan peran http vs CookieRequest.
+http
+- Digunakan untuk melakukan request HTTP dasar seperti GET dan POST.
+- Cocok untuk endpoint publik atau yang tidak memerlukan autentikasi.
+- Tidak mengelola cookie maupun session secara otomatis.
 
 
-
-## Dalam konteks desain antarmuka, apa kelebihan menggunakan layout widget seperti Padding, SingleChildScrollView, dan ListView saat menampilkan elemen-elemen form? Berikan contoh penggunaannya dari aplikasi kamu.
-
-- **Padding**: Memberikan ruang di sekitar elemen form, membuat UI lebih rapi dan mudah dibaca. Contoh: Menambahkan Padding di sekitar TextField untuk menghindari elemen yang terlalu rapat.
-
-- **SingleChildScrollView**: Memungkinkan konten form yang panjang untuk di-scroll, sehingga user dapat mengakses semua elemen tanpa terpotong. Contoh: Menggunakan SingleChildScrollView untuk seluruh form pendaftaran agar pengguna dapat menggulir ke bawah jika form terlalu panjang.
-
-- **ListView**: Menyediakan cara yang efisien untuk menampilkan daftar elemen form yang dinamis, seperti daftar produk atau opsi pilihan. Contoh: Menggunakan ListView untuk menampilkan daftar produk di halaman All Products, sehingga pengguna dapat melihat semua produk dengan mudah.
+CookieRequest
+- Dipakai untuk autentikasi menggunakan cookie session Django.
+- Menyimpan cookie sessionid dan mengirimkannya otomatis pada setiap request berikutnya.
+- Digunakan untuk login, logout, register, serta mengakses endpoint yang membutuhkan autentikasi.
 
 
+Perbedaan
+- http: stateless, tidak menyimpan session, untuk endpoint umum.
+- CookieRequest: stateful, menyimpan cookie session, khusus untuk autentikasi Django.
 
-## Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
-Saya menyesuaikan warna tema agar tampilannya konsisten di seluruh halaman aplikasi (pink). Setiap elemen seperti AppBar, tombol, dan ikon menggunakan warna yang senada supaya aplikasi terlihat rapi dan punya gaya visual yang sama.
+
+
+## Jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+- Menjamin status login konsisten di seluruh aplikasi (satu session untuk semua halaman).
+- Semua widget yang melakukan request autentikasi harus memakai session/cookie yang sama.
+- Menghindari masalah seperti halaman tertentu tidak mengenali login karena memakai instance berbeda.
+- Mempermudah logout, karena perubahan status login langsung terlihat oleh seluruh widget.
+
+
+
+## Jelaskan konfigurasi konektivitas yang diperlukan agar Flutter dapat berkomunikasi dengan Django. Mengapa kita perlu menambahkan 10.0.2.2 pada ALLOWED_HOSTS, mengaktifkan CORS dan pengaturan SameSite/cookie, dan menambahkan izin akses internet di Android? Apa yang akan terjadi jika konfigurasi tersebut tidak dilakukan dengan benar?
+- 10.0.2.2 di ALLOWED_HOSTS → Emulator Android mengakses host melalui alamat ini, bukan localhost.
+- CORS diaktifkan → Mengizinkan aplikasi Flutter mengakses server Django dari origin berbeda.
+- Pengaturan SameSite/cookie → Agar cookie Django (session) dapat dikirim/diterima dengan benar.
+- Izin internet di AndroidManifest → Tanpa izin ini, Flutter tidak dapat melakukan request HTTP.
+
+
+Jika konfigurasi salah:
+- Request akan ditolak (DisallowedHost).
+- Cookie session tidak terkirim → login tidak berfungsi.
+- Request gagal total (tanpa izin internet).
+- Aplikasi tidak bisa berkomunikasi dengan backend.
+
+
+
+## Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+1. Pengguna memberikan input atau membuka halaman yang butuh data.
+2. Flutter mengirim request (GET/POST) ke Django melalui http atau CookieRequest.
+3. Django memproses request, mengambil data dari database, lalu merespons dalam format JSON.
+4. Flutter menerima JSON, mendecode, lalu memetakan ke model Dart (fromJson).
+5. Data disimpan dalam state dan ditampilkan di widget (ListView, card, dll).
+
+
+## Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+Register:
+- Flutter mengirim data ke endpoint register Django.
+- Django memvalidasi dan membuat akun baru.
+- Flutter menampilkan status berhasil/gagal.
+
+
+Login:
+- Flutter mengirim username & password via CookieRequest.login().
+- Django mengecek kredensial dan membuat session.
+- Cookie session dikirim ke Flutter dan disimpan di CookieRequest.
+- Flutter menampilkan menu/homescreen sesuai status login.
+
+
+Akses setelah login:
+- Flutter mengirim request memakai CookieRequest sehingga session ikut terkirim.
+- Django mengenali user melalui cookie dan mengirim data khusus user terkait.
+
+
+Logout:
+- Flutter memanggil request.logout().
+- Django menghapus session.
+- CookieRequest menghapus cookie lokal, status login jadi false.
+
+
+## Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+1. Deployment Django: Membuat model, migrasi, admin, dan endpoint JSON. Tes endpoint hingga berjalan.
+2. Model Django: Menambahkan field item (name, price, description, thumbnail, category, is_featured, user).
+3. Endpoint JSON: Membuat view untuk list item & detail item, termasuk filter berdasarkan user login.
+4. Konfigurasi Django: Menambahkan 10.0.2.2, mengaktifkan CORS, mengatur cookie/session.
+5. Konfigurasi Flutter: Menambahkan dependency http dan pbp_django_auth; menginisialisasi CookieRequest dengan Provider.
+6. Model Dart: Membuat class Item beserta fromJson & toJson.
+7. Halaman Login & Register: Membuat form Flutter lalu kirim data ke Django via CookieRequest.
+8. Halaman Daftar Item:
+- Fetch data dari endpoint JSON Django.
+- Parsing ke model Dart.
+- Menampilkan dalam ListView/GridView dengan card.
+9. Halaman Detail Item:
+- Navigasi dari card item ke halaman detail.
+- Menampilkan seluruh atribut item.
+- Menambahkan tombol kembali.
+10. Filter Item by User:
+- Mengatur Django supaya hanya mengembalikan item milik user login.
+- Memastikan Flutter mengakses dengan CookieRequest.
